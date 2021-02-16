@@ -32,7 +32,6 @@ const CreatePost = ({ open, handleClose, username }) => {
           }}
         />
         <TextField
-          autoFocus
           margin="dense"
           id="text"
           label="Post text"

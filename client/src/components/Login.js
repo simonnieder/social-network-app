@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     padding: "2rem",
     width: "30%",
-    minWidth: "400px",
+    minWidth: "350px",
   },
   signUpLink: {
     color: "#3498db",
