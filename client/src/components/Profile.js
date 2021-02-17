@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { Typography } from "@material-ui/core";
 import Post from "./Post";
 import { useParams } from "react-router-dom";
+const { REACT_APP_API_URL } = process.env;
 const useStyles = makeStyles((theme) => ({
   root: {
     maxHeight: "100vh",
@@ -29,7 +30,7 @@ const Profile = () => {
   let { userId } = useParams();
   useEffect(() => {
     const getProfile = async () => {
-      const response = await axios.get(`http://localhost:12345/users/posts/${userId}`).catch((error) => {
+      const response = await axios.get(REACT_APP_API_URL + "posts/" + userId).catch((error) => {
         if (!error.response) {
           console.log("Error: Network Error");
         } else {
@@ -53,7 +54,7 @@ const Profile = () => {
           .slice()
           .reverse()
           .map((post, index) => {
-            return <Post key={index} title={post.title} text={post.text}></Post>;
+            return <Post key={index} title={post.title} text={post.text} author={post.author}></Post>;
           })}
       </div>
     </div>

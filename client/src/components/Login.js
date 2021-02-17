@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-
+const { REACT_APP_API_URL } = process.env;
 const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
@@ -23,8 +23,8 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     padding: "2rem",
-    width: "30%",
-    minWidth: "350px",
+    width: "50%",
+    minWidth: "300px",
   },
   signUpLink: {
     color: "#3498db",
@@ -39,7 +39,7 @@ const Login = (props) => {
   const submitForm = (e) => {
     e.preventDefault();
     axios
-      .get(`http://localhost:12345/users/${username}`)
+      .get(REACT_APP_API_URL + username)
       .then((response) => {
         if (password == response.data.password) {
           props.onUserSubmit(username);

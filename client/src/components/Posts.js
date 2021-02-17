@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import Post from "./Post";
 import { useState, useEffect } from "react";
+const { REACT_APP_API_URL } = process.env;
 const useStyles = makeStyles((theme) => ({
   root: {
     maxHeight: "100vh",
@@ -27,7 +28,7 @@ const Posts = () => {
 
   useEffect(() => {
     const getPosts = async () => {
-      const response = await axios.get("http://localhost:12345/users/posts").catch((error) => {
+      const response = await axios.get(REACT_APP_API_URL + "posts").catch((error) => {
         if (!error.response) {
           console.log("Error: Network Error");
         } else {
@@ -43,7 +44,7 @@ const Posts = () => {
 
   return (
     <div className={classes.root}>
-      <Typography variant="h2" className={classes.header}>
+      <Typography variant="h3" className={classes.header}>
         ALL POSTS
       </Typography>
       <div className={classes.container}>
@@ -53,7 +54,7 @@ const Posts = () => {
               .slice()
               .reverse()
               .map((post, index) => {
-                return <Post key={index} title={post.title} text={post.text}></Post>;
+                return <Post key={index} title={post.title} text={post.text} author={post.author}></Post>;
               }),
           ]}
         </div>

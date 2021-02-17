@@ -7,13 +7,15 @@ import Users from "./components/Users";
 import UserInfo from "./components/UserInfo";
 import CreatePost from "./components/CreatePost";
 import { makeStyles } from "@material-ui/core/styles";
-import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Redirect, Link } from "react-router-dom";
 import { useState } from "react";
 import { Button } from "@material-ui/core";
+import Alert from "@material-ui/lab/Alert";
+
 const useStyles = makeStyles((theme) => ({
   app: {
     display: "grid",
-    gridTemplateColumns: "350px auto",
+    gridTemplateColumns: "minmax(150px,30%) auto",
   },
   options: {
     display: "flex",
@@ -33,6 +35,16 @@ const useStyles = makeStyles((theme) => ({
       marginRight: ".25rem",
     },
   },
+  link: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100vh",
+    width: "100%",
+    "& *": {
+      fontSize: "1.25rem",
+    },
+  },
 }));
 function App() {
   const [username, setUsername] = useState("");
@@ -48,34 +60,39 @@ function App() {
     <div className={classes.app}>
       <Router>
         <Sidebar />
-        <Route path="/posts" component={Posts}></Route>
+
+        {/*LOGIN*/}
         {username === "" ? (
           <Route path="/login" render={() => <Login onUserSubmit={setUsername}></Login>}></Route>
         ) : (
           <Route
             path="/login"
             render={() => (
-              <Button
-                onClick={() => {
-                  setUsername("");
-                }}
-                style={{ fontSize: "2rem" }}
-              >
-                You're logged in. Click to logout
-              </Button>
+              <div className={classes.link}>
+                <Button component={Link} to={`/users/${username}`}>
+                  You're logged in. Click to view your profile.
+                </Button>
+              </div>
             )}
           ></Route>
         )}
+
+        {/* USERS */}
         <Switch>
           <Route path="/users/:userId" component={Profile}></Route>
           <Route path="/users" component={Users}></Route>
-          {username == "" ? (
-            <Route path="/signup" render={() => <Signup onUserSubmit={setUsername}></Signup>}></Route>
-          ) : (
-            <Route path="/signup" render={() => <Redirect to="/login"></Redirect>}></Route>
-          )}
         </Switch>
 
+        {/* SIGNUP */}
+        {username == "" ? (
+          <Route path="/signup" render={() => <Signup onUserSubmit={setUsername}></Signup>}></Route>
+        ) : (
+          <Route path="/signup" render={() => <Redirect to="/login"></Redirect>}></Route>
+        )}
+
+        {/*POSTS*/}
+        <Route path="/posts" component={Posts}></Route>
+        {/* CREATE POST */}
         {username !== "" && <UserInfo username={username} onSetUsername={setUsername} onHandleClickOpen={handleClickOpen} />}
         <CreatePost
           open={open}

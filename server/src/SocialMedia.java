@@ -7,8 +7,8 @@ import java.util.List;
 @Path("/users")
 public class SocialMedia {
     private List<User> users = Collections.synchronizedList(new ArrayList<User>());
-
-    @GET
+    private List<Post> posts = Collections.synchronizedList(new ArrayList<Post>());
+    @GET    
     @Produces("application/json")
     public Response getUsers() {
         User[] userArray = new User[users.size()];
@@ -47,10 +47,6 @@ public class SocialMedia {
     @GET
     @Produces("application/json")
     public Response getAllPosts() {
-        ArrayList<Post> posts = new ArrayList<>();
-        for (User u : users) {
-            posts.addAll(u.getPosts());
-        }
         Post[] postsArray = new Post[posts.size()];
         if (posts.isEmpty()) return Response.status(Response.Status.NOT_FOUND).build();
         return Response.status(Response.Status.OK).entity(posts.toArray(postsArray)).build();
@@ -60,25 +56,25 @@ public class SocialMedia {
     @GET
     @Produces("application/json")
     public Response getPosts(@PathParam("username") String username) {
-        ArrayList<Post> posts = new ArrayList<>();
-        for (User u : users) {
-            if (username.equals(u.getUsername())) {
-                posts.addAll(u.getPosts());
+        ArrayList<Post> userPosts = new ArrayList<>();
+        for (Post p : posts) {
+            if (p.getAuthor().equals(username)) {
+                userPosts.add(p);
                 break;
             }
         }
-        if (posts.isEmpty()) return Response.status(Response.Status.NOT_FOUND).build();
-        Post[] postsArray = new Post[posts.size()];
-        return Response.status(Response.Status.OK).entity(posts.toArray(postsArray)).build();
+        if (userPosts.isEmpty()) return Response.status(Response.Status.NOT_FOUND).build();
+        Post[] postsArray = new Post[userPosts.size()];
+        return Response.status(Response.Status.OK).entity(userPosts.toArray(postsArray)).build();
     }
 
-    @Path("/posts/{username}")
+    @Path("/posts")
     @POST
     @Consumes("application/json")
-    public Response createPost(@PathParam("username") String username, Post post) {
+    public Response createPost(Post post) {
         for (User u : users) {
-            if (username.equals(u.getUsername())) {
-                u.getPosts().add(post);
+            if (post.getAuthor().equals(u.getUsername())) {
+                posts.add(post);
                 return Response.status(Response.Status.CREATED).build();
             }
         }

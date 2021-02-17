@@ -1,25 +1,27 @@
-import { Dialog, DialogContent, DialogTitle, TextField, Button, DialogContentText, DialogActions } from "@material-ui/core";
+import { Dialog, DialogContent, DialogTitle, TextField, Button, DialogActions } from "@material-ui/core";
 import axios from "axios";
 import { useState } from "react";
 import { PropTypes } from "prop-types";
+const { REACT_APP_API_URL } = process.env;
 const CreatePost = ({ open, handleClose, username }) => {
   const [title, setTitle] = useState();
   const [text, setText] = useState();
   const post = async (username) => {
-    const request = await axios
-      .post(`http://localhost:12345/users/posts/${username}`, {
+    const url = REACT_APP_API_URL + "posts";
+    try {
+      const request = await axios.post(url, {
         title: title,
         text: text,
-      })
-      .then((response) => {
-        console.log(response);
+        author: username,
       });
+    } catch (err) {
+      console.log("Post was not created");
+    }
   };
   return (
     <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-      <DialogTitle id="form-dialog-title">Create a post</DialogTitle>
+      <DialogTitle id="form-dialog-title">Create a post</DialogTitle>{" "}
       <DialogContent>
-        <DialogContentText>Create your new post</DialogContentText>
         <TextField
           autoFocus
           margin="dense"
@@ -48,6 +50,7 @@ const CreatePost = ({ open, handleClose, username }) => {
           Cancel
         </Button>
         <Button
+          type="submit"
           onClick={() => {
             post(username);
             handleClose();

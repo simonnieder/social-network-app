@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+const { REACT_APP_API_URL } = process.env;
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -23,8 +24,8 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     padding: "2rem",
-    width: "30%",
-    minWidth: "400px",
+    width: "50%",
+    minWidth: "300px",
   },
 }));
 
@@ -41,7 +42,7 @@ const Signup = (props) => {
       return;
     }
     axios
-      .post("http://localhost:12345/users/", {
+      .post(REACT_APP_API_URL, {
         username: username,
         password: password,
       })

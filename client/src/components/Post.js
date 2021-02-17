@@ -1,6 +1,6 @@
 import { Card, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-
+import { Link } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   card: {
     width: "500px",
@@ -10,17 +10,20 @@ const useStyles = makeStyles((theme) => ({
     height: "fit-content",
   },
   text: {
-    fontSize: "1rem",
-    margin: "1rem 0",
+    fontSize: "1.25rem",
+    margin: "0.25rem 0",
   },
 }));
 
-const Posts = ({ title, text }) => {
+const Posts = ({ title, text, author }) => {
   const classes = useStyles();
   return (
     <Card className={classes.card} variant="outlined">
       <Typography variant="h4">{title}</Typography>
       <Typography className={classes.text}>{text}</Typography>
+      <Typography to={`/users/${author}`} variant="p" component={Link}>
+        <small>@{author}</small>
+      </Typography>
     </Card>
   );
 };

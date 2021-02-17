@@ -3,7 +3,7 @@ import { Typography } from "@material-ui/core";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import User from "./User";
-
+const { REACT_APP_API_URL } = process.env;
 const useStyles = makeStyles({
   root: {
     maxHeight: "100vh",
@@ -27,7 +27,7 @@ const Users = () => {
   const [users, setUsers] = useState([]);
   useEffect(() => {
     const getUsers = async () => {
-      const response = await axios.get("http://localhost:12345/users/").catch((error) => {
+      const response = await axios.get(REACT_APP_API_URL).catch((error) => {
         if (!error.response) {
           console.log("Error: Network Error");
         } else {
@@ -44,7 +44,7 @@ const Users = () => {
   if (users === undefined) return;
   return (
     <div className={classes.root}>
-      <Typography variant="h2" className={classes.header}>
+      <Typography variant="h3" className={classes.header}>
         USERS
       </Typography>
       <div className={classes.container}>

@@ -4,23 +4,31 @@ import { Link as RouterLink } from "react-router-dom";
 import { useState } from "react";
 import { MdMailOutline, MdAccountBox, MdExplore } from "react-icons/md";
 const useStyles = makeStyles((theme) => ({
-  container: {
+  root: {
     height: "100vh",
     display: "flex",
     alignItems: "center",
     flexDirection: "column",
-    "& >*": {
-      fontSize: "1.25rem",
-      width: "100%",
-      color: "white",
-    },
     background: "#292929",
+  },
+  navButton: {
+    height: "calc(100vh / 3)",
+    fontSize: "2rem",
+    width: "100%",
+    color: "white",
+    borderRadius: "0",
+    "& *": {
+      fontSize: "2rem",
+    },
   },
   isActive: {
     background: "#393939",
     "&:hover": {
-      background: "#494949",
+      background: "#393939",
     },
+  },
+  myicon: {
+    fontSize: "5rem",
   },
 }));
 
@@ -32,13 +40,13 @@ const Sidebar = () => {
     setSelected(id);
   }
   return (
-    <div className={classes.container}>
+    <div className={classes.root}>
       <Button
         component={RouterLink}
         to="/login"
         onClick={() => onButtonClick(1)}
-        className={window.location.pathname == "/login" ? classes.isActive : ""}
-        startIcon={<MdAccountBox />}
+        className={`${classes.navButton} ${window.location.pathname == "/login" ? classes.isActive : ""}`}
+        startIcon={<MdAccountBox style={{ fontSize: "2rem" }} />}
       >
         Login
       </Button>
@@ -46,8 +54,8 @@ const Sidebar = () => {
         component={RouterLink}
         to="/users"
         onClick={() => onButtonClick(2)}
-        className={window.location.pathname == "/users" ? classes.isActive : ""}
-        startIcon={<MdExplore />}
+        className={`${classes.navButton} ${window.location.pathname == "/users" ? classes.isActive : ""}`}
+        startIcon={<MdExplore style={{ fontSize: "2rem" }} />}
       >
         Users
       </Button>
@@ -55,8 +63,8 @@ const Sidebar = () => {
         component={RouterLink}
         to="/posts"
         onClick={() => onButtonClick(3)}
-        className={window.location.pathname == "/posts" ? classes.isActive : ""}
-        startIcon={<MdMailOutline />}
+        className={`${classes.navButton} ${window.location.pathname == "/posts" ? classes.isActive : ""}`}
+        startIcon={<MdMailOutline style={{ fontSize: "2rem" }} />}
       >
         Posts
       </Button>
