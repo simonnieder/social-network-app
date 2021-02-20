@@ -24,8 +24,11 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     padding: "2rem",
-    width: "50%",
+    width: "40%",
     minWidth: "300px",
+  },
+  loginLink: {
+    color: "#3498db",
   },
 }));
 
@@ -96,6 +99,9 @@ const Signup = (props) => {
             sign up
           </Button>
         </form>
+        <Link className={classes.loginLink} to="/login">
+          <small>Already have an account? Log in.</small>
+        </Link>
       </Paper>
     </div>
   );

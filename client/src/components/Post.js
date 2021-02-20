@@ -21,8 +21,8 @@ const Posts = ({ title, text, author }) => {
     <Card className={classes.card} variant="outlined">
       <Typography variant="h4">{title}</Typography>
       <Typography className={classes.text}>{text}</Typography>
-      <Typography to={`/users/${author}`} variant="p" component={Link}>
-        <small>@{author}</small>
+      <Typography to={`/users/${author}`} variant="body1" component={Link}>
+        <small>{author}</small>
       </Typography>
     </Card>
   );

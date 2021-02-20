@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Posts = () => {
+const Posts = ({ isNewPost }) => {
   const classes = useStyles();
   const [posts, setPosts] = useState([]);
 
@@ -40,7 +40,7 @@ const Posts = () => {
       return response;
     };
     getPosts();
-  }, []);
+  }, [isNewPost]);
 
   return (
     <div className={classes.root}>

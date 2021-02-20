@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     padding: "2rem",
-    width: "50%",
+    width: "40%",
     minWidth: "300px",
   },
   signUpLink: {
@@ -87,11 +87,9 @@ const Login = (props) => {
             submit
           </Button>
         </form>
-        <p>
-          <Link className={classes.signUpLink} to="/signup">
-            Sign up.
-          </Link>
-        </p>
+        <Link className={classes.signUpLink} to="/signup">
+          <small>Sign up.</small>
+        </Link>
       </Paper>
     </div>
   );

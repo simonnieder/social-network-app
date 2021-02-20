@@ -3,7 +3,7 @@ import axios from "axios";
 import { useState } from "react";
 import { PropTypes } from "prop-types";
 const { REACT_APP_API_URL } = process.env;
-const CreatePost = ({ open, handleClose, username }) => {
+const CreatePost = ({ open, handleClose, username, isNewPost, setIsNewPost }) => {
   const [title, setTitle] = useState();
   const [text, setText] = useState();
   const post = async (username) => {
@@ -14,6 +14,7 @@ const CreatePost = ({ open, handleClose, username }) => {
         text: text,
         author: username,
       });
+      setIsNewPost(!isNewPost);
     } catch (err) {
       console.log("Post was not created");
     }

@@ -8,9 +8,8 @@ import UserInfo from "./components/UserInfo";
 import CreatePost from "./components/CreatePost";
 import { makeStyles } from "@material-ui/core/styles";
 import { BrowserRouter as Router, Switch, Route, Redirect, Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@material-ui/core";
-import Alert from "@material-ui/lab/Alert";
 
 const useStyles = makeStyles((theme) => ({
   app: {
@@ -50,12 +49,17 @@ function App() {
   const [username, setUsername] = useState("");
   const classes = useStyles();
   const [open, setOpen] = useState(false);
+  const [isNewPost, setIsNewPost] = useState(false);
   const handleClickOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
   };
+
+  useEffect(() => {
+    console.log("added post");
+  }, [isNewPost]);
   return (
     <div className={classes.app}>
       <Router>
@@ -91,10 +95,12 @@ function App() {
         )}
 
         {/*POSTS*/}
-        <Route path="/posts" component={Posts}></Route>
+        <Route path="/posts" render={() => <Posts isNewPost={isNewPost}></Posts>}></Route>
         {/* CREATE POST */}
         {username !== "" && <UserInfo username={username} onSetUsername={setUsername} onHandleClickOpen={handleClickOpen} />}
         <CreatePost
+          isNewPost={isNewPost}
+          setIsNewPost={setIsNewPost}
           open={open}
           handleClose={() => {
             handleClose();
