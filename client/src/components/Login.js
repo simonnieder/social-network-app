@@ -14,7 +14,6 @@ const useStyles = makeStyles((theme) => ({
   },
   form: {
     "& >*": {
-      width: "100%",
       fontSize: "1.25rem",
     },
   },
@@ -60,11 +59,13 @@ const Login = (props) => {
   return (
     <div className={classes.container}>
       <Paper variant="outlined" className={classes.paper}>
-        <Typography variant="h5">Login:</Typography>
+        <Typography variant="h3">Login:</Typography>
         <form className={classes.form} onSubmit={submitForm}>
           <TextField
             error={Boolean(error?.error)}
             label="username"
+            fullWidth
+            required
             onChange={(e) => setUsername(e.target.value)}
             inputProps={{ style: { fontSize: "1.5rem" } }}
             InputLabelProps={{ style: { fontSize: "1.5rem" } }}
@@ -77,13 +78,15 @@ const Login = (props) => {
             helperText={error?.error}
             label="password"
             type="password"
+            fullWidth
+            required
             onChange={(e) => setPassword(e.target.value)}
             inputProps={{ style: { fontSize: "1.5rem" } }}
             InputLabelProps={{ style: { fontSize: "1.5rem" } }}
           >
             password
           </TextField>
-          <Button type="submit" variant="outlined">
+          <Button type="submit" color="primary" variant="contained">
             submit
           </Button>
         </form>

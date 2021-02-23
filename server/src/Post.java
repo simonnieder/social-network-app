@@ -1,16 +1,27 @@
+import java.util.UUID;
+
 public class Post {
     private String title;
     private String text;
-    private int likes;
     private String author;
+    private String id;
+
     public Post() {
     }
 
-    public Post(String title, String text, String author) {
+    public Post(String title, String text, String author, String id) {
         this.title = title;
         this.text = text;
         this.author = author;
-        this.likes = 0;
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getAuthor() {
@@ -35,13 +46,5 @@ public class Post {
 
     public void setText(String text) {
         this.text = text;
-    }
-
-    public int getLikes() {
-        return likes;
-    }
-
-    public void setLikes(int likes) {
-        this.likes = likes;
     }
 }

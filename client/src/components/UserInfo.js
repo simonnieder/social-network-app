@@ -1,44 +1,64 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
-import { IconButton, Typography, Card, Container } from "@material-ui/core";
-import { MdExitToApp, MdAdd } from "react-icons/md";
+import { IconButton, Typography, Paper, Container, Avatar } from "@material-ui/core";
+import { MdExitToApp, MdDelete } from "react-icons/md";
+import axios from "axios";
+const { REACT_APP_API_URL } = process.env;
 const useStyles = makeStyles((theme) => ({
   options: {
     padding: "0.25rem 0.5rem",
     display: "flex",
-    position: "absolute",
+    alignItems: "space-around",
     margin: "1rem",
-    top: "0",
-    right: "0",
+    bottom: "0",
+    left: "0",
+    width: "80%",
+    boxSizing: "default",
     "& *": {
       fontSize: "1.75rem",
     },
     color: "inherit",
+    background: theme.palette.primary.main,
+    border: "none",
   },
   profile: {
+    overflow: "hidden",
     padding: "0",
     textDecoration: "none",
     color: "inherit",
     display: "flex",
-    justifyContent: "center",
     alignItems: "center",
     "& >*": {
       marginRight: ".25rem",
     },
   },
+  icon: {
+    color: "white",
+  },
 }));
 
-const UserInfo = ({ username, onSetUsername, onHandleClickOpen }) => {
+const UserInfo = ({ username, onSetUsername }) => {
   const classes = useStyles();
+
+  const deleteUser = async () => {
+    const response = await axios.delete(REACT_APP_API_URL + username).catch((error) => {
+      if (!error.response) {
+        console.log("Error: Network Error");
+      } else {
+        console.log("Error: " + error.response.data.message);
+      }
+    });
+    if (response === undefined) return;
+    onSetUsername("");
+  };
   return (
-    <Card className={classes.options}>
+    <Paper className={classes.options} variant="outlined">
       <Container className={classes.profile} component={Link} to={`/users/${username}`}>
-        <img src="https://via.placeholder.com/30" alt="" style={{ borderRadius: "50%" }} />
         <Typography variant="h5">{username}</Typography>
       </Container>
-      <IconButton aria-label="add" onClick={onHandleClickOpen}>
-        <MdAdd></MdAdd>
+      <IconButton onClick={deleteUser}>
+        <MdDelete className={classes.icon}></MdDelete>
       </IconButton>
       <IconButton
         aria-label="exit"
@@ -46,9 +66,9 @@ const UserInfo = ({ username, onSetUsername, onHandleClickOpen }) => {
           onSetUsername("");
         }}
       >
-        <MdExitToApp></MdExitToApp>
+        <MdExitToApp className={classes.icon}></MdExitToApp>
       </IconButton>
-    </Card>
+    </Paper>
   );
 };
 

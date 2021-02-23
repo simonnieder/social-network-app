@@ -1,4 +1,4 @@
-import com.sun.net.httpserver.HttpServer;
+
 import org.glassfish.jersey.jdkhttp.JdkHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
@@ -16,7 +16,6 @@ class  ServerHttps {
     private final static String host="https://localhost/";
 
     public static void main(String[] args) throws KeyStoreException, NoSuchAlgorithmException, IOException, CertificateException, UnrecoverableKeyException, KeyManagementException {
-
         SSLContext sslContext = SSLContext.getInstance("TLS");
         char[] keystorePassword = "password".toCharArray();
         KeyStore ks = KeyStore.getInstance("JKS");
@@ -28,7 +27,7 @@ class  ServerHttps {
         URI baseUri = UriBuilder.fromUri(host).port(port).build();
         ResourceConfig config = ResourceConfig.forApplication(new MyApplication());
         config.register(new CORSFilter());
-        HttpServer server = JdkHttpServerFactory.createHttpServer(baseUri, config ,sslContext);
+        JdkHttpServerFactory.createHttpServer(baseUri, config ,sslContext);
     }
 
 }

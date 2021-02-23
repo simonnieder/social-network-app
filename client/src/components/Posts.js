@@ -1,7 +1,8 @@
-import { Typography } from "@material-ui/core";
+import { Avatar, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import Post from "./Post";
+import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 const { REACT_APP_API_URL } = process.env;
 const useStyles = makeStyles((theme) => ({
@@ -12,23 +13,32 @@ const useStyles = makeStyles((theme) => ({
   },
   container: {
     display: "grid",
-    margin: "auto",
     justifyItems: "center",
-    overflow: "auto",
   },
   header: {
-    textAlign: "center",
-    margin: "1rem 0",
+    display: "flex",
+    alignItems: "center",
+    background: theme.palette.background.gray,
+    padding: "2rem",
+    color: "#393939",
+  },
+  title: {
+    text: "center",
+    marginLeft: "1rem",
   },
 }));
 
-const Posts = ({ isNewPost }) => {
+const Posts = ({ username }) => {
   const classes = useStyles();
   const [posts, setPosts] = useState([]);
-
+  const { author } = useParams();
   useEffect(() => {
     const getPosts = async () => {
-      const response = await axios.get(REACT_APP_API_URL + "posts").catch((error) => {
+      let path = "posts";
+      if (author != undefined) {
+        path += `/${author};`;
+      }
+      const response = await axios.get(REACT_APP_API_URL + path).catch((error) => {
         if (!error.response) {
           console.log("Error: Network Error");
         } else {
@@ -37,27 +47,45 @@ const Posts = ({ isNewPost }) => {
       });
       if (response === undefined) return;
       setPosts(response.data);
-      return response;
     };
     getPosts();
-  }, [isNewPost]);
+  }, []);
 
+  const deletePost = async (id) => {
+    const response = await axios.delete(REACT_APP_API_URL + "posts/" + id).catch((error) => {
+      if (!error.response) {
+        console.log("Error: Network Error");
+      } else {
+        console.log("Error: " + error.response.data.message);
+      }
+    });
+    if (response === undefined) return;
+    setPosts(posts.filter((element) => element.id != id));
+  };
+
+  const createProfileTitles = (userId) => {
+    if (userId.charAt(userId.length - 1).toLowerCase() == "s") return userId + "'";
+    return userId + "'s";
+  };
   return (
     <div className={classes.root}>
-      <Typography variant="h3" className={classes.header}>
-        ALL POSTS
-      </Typography>
+      <div className={classes.header}>
+        {author != undefined && (
+          <Avatar src={`https://avatars.dicebear.com/api/initials/${author}.svg`} alt="" style={{ height: "50px", width: "50px" }} />
+        )}
+        <Typography variant="h2" className={classes.title}>
+          {author != undefined ? `${author}` : "All Posts"}
+        </Typography>
+      </div>
       <div className={classes.container}>
-        <div>
-          {[
-            posts
-              .slice()
-              .reverse()
-              .map((post, index) => {
-                return <Post key={index} title={post.title} text={post.text} author={post.author}></Post>;
-              }),
-          ]}
-        </div>
+        {[
+          posts
+            .slice()
+            .reverse()
+            .map((post, index) => {
+              return <Post key={index} post={post} username={username} deletePost={deletePost}></Post>;
+            }),
+        ]}
       </div>
     </div>
   );

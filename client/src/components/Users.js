@@ -1,28 +1,36 @@
 import { makeStyles } from "@material-ui/core/styles";
-import { Typography } from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import User from "./User";
 const { REACT_APP_API_URL } = process.env;
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     maxHeight: "100vh",
     width: "100%",
-    overflow: "auto",
+    overflowY: "auto",
+    margin: "0 auto",
   },
   container: {
     display: "grid",
     gridTemplateColumns: "1fr 1fr 1fr 1fr",
-    padding: "5rem",
+    padding: "3rem",
     gridAutoRows: "5rem",
     columnGap: "2rem",
     rowGap: "2rem",
   },
   header: {
-    textAlign: "center",
-    marginTop: "1rem",
+    display: "flex",
+    alignItems: "center",
+    background: theme.palette.background.gray,
+    padding: "2rem",
+    color: "#393939",
   },
-});
+  title: {
+    text: "center",
+    marginLeft: "1rem",
+  },
+}));
 const Users = () => {
   const [users, setUsers] = useState([]);
   useEffect(() => {
@@ -44,13 +52,19 @@ const Users = () => {
   if (users === undefined) return;
   return (
     <div className={classes.root}>
-      <Typography variant="h3" className={classes.header}>
-        USERS
-      </Typography>
-      <div className={classes.container}>
+      <div className={classes.header}>
+        <Typography variant="h2" className={classes.title}>
+          Users
+        </Typography>
+      </div>
+      <div className={classes.container} spacing={5}>
         {[
           users.map((user, index) => {
-            return <User key={index} username={user.username}></User>;
+            return (
+              <div item xs={3}>
+                <User key={index} username={user.username}></User>
+              </div>
+            );
           }),
         ]}
       </div>

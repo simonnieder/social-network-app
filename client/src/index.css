@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Hind+Madurai:wght@300;400;500;600;700&display=swap");
 body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
@@ -15,4 +16,13 @@ code {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+/*Animations*/
+.alert-enter {
+  opacity: 1;
+}
+.alert-enter.altert-enter-active {
+  opacity: 0;
+  transition: opacity 2000ms ease-out;
 }

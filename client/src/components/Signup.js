@@ -15,7 +15,6 @@ const useStyles = makeStyles((theme) => ({
   },
   form: {
     "& >*": {
-      width: "100%",
       fontSize: "1.25rem",
     },
   },
@@ -32,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Signup = (props) => {
+const Signup = ({ onUserSubmit }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -50,11 +49,12 @@ const Signup = (props) => {
         password: password,
       })
       .then((response) => {
-        props.onUserSubmit(username);
+        onUserSubmit(username);
       })
       .catch((error) => {
         if (!error.response) setError({ error: "Network Error" });
-        setError({ error: "Username already in use" });
+        // setError({ error: "Username already in use" });
+        console.log(error);
       });
   };
 
@@ -62,11 +62,14 @@ const Signup = (props) => {
   return (
     <div className={classes.container}>
       <Paper variant="outlined" className={classes.paper}>
-        <Typography variant="h5">Sign up:</Typography>
+        <Typography variant="h3">Sign up:</Typography>
         <form className={classes.form} onSubmit={submitForm}>
           <TextField
             error={Boolean(error?.error)}
             label="username"
+            fullWidth
+            required
+            value={username}
             onChange={(e) => setUsername(e.target.value)}
             inputProps={{ style: { fontSize: "1.5rem" } }}
             InputLabelProps={{ style: { fontSize: "1.5rem" } }}
@@ -77,6 +80,9 @@ const Signup = (props) => {
             error={Boolean(error?.error)}
             label="password"
             type="password"
+            fullWidth
+            required
+            value={password}
             onChange={(e) => setPassword(e.target.value)}
             inputProps={{ style: { fontSize: "1.5rem" } }}
             InputLabelProps={{ style: { fontSize: "1.5rem" } }}
@@ -89,13 +95,16 @@ const Signup = (props) => {
             helperText={error?.error}
             label="confirm password"
             type="password"
+            fullWidth
+            required
+            value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             inputProps={{ style: { fontSize: "1.5rem" } }}
             InputLabelProps={{ style: { fontSize: "1.5rem" } }}
           >
             confirm password
           </TextField>
-          <Button type="submit" variant="outlined">
+          <Button type="submit" color="primary" variant="contained">
             sign up
           </Button>
         </form>

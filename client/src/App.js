@@ -4,17 +4,19 @@ import Signup from "./components/Signup";
 import Posts from "./components/Posts";
 import Profile from "./components/Profile";
 import Users from "./components/Users";
-import UserInfo from "./components/UserInfo";
 import CreatePost from "./components/CreatePost";
 import { makeStyles } from "@material-ui/core/styles";
 import { BrowserRouter as Router, Switch, Route, Redirect, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { Button } from "@material-ui/core";
+import axios from "axios";
+import Theme from "./Theme";
+import { ThemeProvider } from "@material-ui/core/styles";
+let theme = Theme;
 
 const useStyles = makeStyles((theme) => ({
   app: {
     display: "grid",
-    gridTemplateColumns: "minmax(150px,30%) auto",
+    gridTemplateColumns: "350px auto",
   },
   options: {
     display: "flex",
@@ -47,68 +49,52 @@ const useStyles = makeStyles((theme) => ({
 }));
 function App() {
   const [username, setUsername] = useState("");
+  const [avatar, setAvatar] = useState("");
   const classes = useStyles();
-  const [open, setOpen] = useState(false);
-  const [isNewPost, setIsNewPost] = useState(false);
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   useEffect(() => {
-    console.log("added post");
-  }, [isNewPost]);
+    if (username == "") return;
+    async function fetch() {
+      const res = await axios.get(`https://eu.ui-avatars.com/api/?name=${username}`);
+      console.log(res.data);
+      setAvatar(res.data);
+    }
+    // fetch();
+  }, [username]);
   return (
-    <div className={classes.app}>
-      <Router>
-        <Sidebar />
+    <ThemeProvider theme={theme}>
+      <div className={classes.app}>
+        <Router>
+          <Sidebar username={username} setUsername={setUsername} />
 
-        {/*LOGIN*/}
-        {username === "" ? (
-          <Route path="/login" render={() => <Login onUserSubmit={setUsername}></Login>}></Route>
-        ) : (
-          <Route
-            path="/login"
-            render={() => (
-              <div className={classes.link}>
-                <Button component={Link} to={`/users/${username}`}>
-                  You're logged in. Click to view your profile.
-                </Button>
-              </div>
-            )}
-          ></Route>
-        )}
+          {/*LOGIN*/}
+          {username === "" ? (
+            <Route path={["/login", "/"]} exact render={() => <Login onUserSubmit={setUsername}></Login>}></Route>
+          ) : (
+            <Route path="/login" render={() => <Redirect to={`/users/${username}`}></Redirect>}></Route>
+          )}
 
-        {/* USERS */}
-        <Switch>
-          <Route path="/users/:userId" component={Profile}></Route>
-          <Route path="/users" component={Users}></Route>
-        </Switch>
+          {/* USERS */}
+          <Switch>
+            <Route path="/users/:author" render={() => <Posts username={username}></Posts>}></Route>
+            <Route path="/users" component={Users}></Route>
+          </Switch>
 
-        {/* SIGNUP */}
-        {username == "" ? (
-          <Route path="/signup" render={() => <Signup onUserSubmit={setUsername}></Signup>}></Route>
-        ) : (
-          <Route path="/signup" render={() => <Redirect to="/login"></Redirect>}></Route>
-        )}
+          {/* SIGNUP */}
+          {username == "" ? (
+            <Route path="/signup" render={() => <Signup onUserSubmit={setUsername}></Signup>}></Route>
+          ) : (
+            <Route path="/signup" render={() => <Redirect to="/login"></Redirect>}></Route>
+          )}
 
-        {/*POSTS*/}
-        <Route path="/posts" render={() => <Posts isNewPost={isNewPost}></Posts>}></Route>
-        {/* CREATE POST */}
-        {username !== "" && <UserInfo username={username} onSetUsername={setUsername} onHandleClickOpen={handleClickOpen} />}
-        <CreatePost
-          isNewPost={isNewPost}
-          setIsNewPost={setIsNewPost}
-          open={open}
-          handleClose={() => {
-            handleClose();
-          }}
-          username={username}
-        ></CreatePost>
-      </Router>
-    </div>
+          {/*POSTS*/}
+          <Route path="/posts" render={() => <Posts username={username}></Posts>}></Route>
+
+          {/* CREATE POST */}
+          <Route path="/create-post" render={() => <CreatePost username={username}></CreatePost>}></Route>
+        </Router>
+      </div>
+    </ThemeProvider>
   );
 }
 

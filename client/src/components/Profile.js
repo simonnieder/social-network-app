@@ -1,11 +1,11 @@
-import { Button, IconButton } from "@material-ui/core";
+import { IconButton } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { Card, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import Post from "./Post";
 import { MdArrowBack } from "react-icons/md";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 const { REACT_APP_API_URL } = process.env;
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,8 +17,6 @@ const useStyles = makeStyles((theme) => ({
   container: {
     display: "grid",
     justifyItems: "center",
-    overflow: "auto",
-    maxHeight: "100vh",
   },
   header: {
     textAlign: "center",
@@ -39,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Profile = () => {
+const Profile = ({ username }) => {
   const classes = useStyles();
   const [posts, setPosts] = useState([]);
   let { userId } = useParams();
@@ -60,29 +58,27 @@ const Profile = () => {
   }, []);
 
   const createProfileTitles = (userId) => {
-    userId = userId.toUpperCase();
-    if (userId.charAt(userId.length - 1) == "S") return userId + "'";
-    return userId + "'S";
+    if (userId.charAt(userId.length - 1).toLowerCase() == "s") return userId + "'";
+    return userId + "'s";
   };
   return (
     <div className={classes.root}>
-      <Typography variant="h2" className={classes.header}>
-        {createProfileTitles(userId)} POSTS
+      <Typography variant="h3" className={classes.header}>
+        {createProfileTitles(userId)} Posts
       </Typography>
       <div className={classes.container}>
         {posts
           .slice()
           .reverse()
           .map((post, index) => {
-            return <Post key={index} title={post.title} text={post.text} author={post.author}></Post>;
+            return <Post key={index} post={post} username={username}></Post>;
           })}
       </div>
-
-      <Card className={classes.card}>
-        <IconButton component={Link} to={"/users"} style={{ zIndex: "999999" }}>
-          <MdArrowBack className={classes.icon}></MdArrowBack>
+      <div className={classes.card}>
+        <IconButton href="javascript:history.back()">
+          <MdArrowBack></MdArrowBack>
         </IconButton>
-      </Card>
+      </div>
     </div>
   );
 };
