@@ -1,10 +1,8 @@
 import { makeStyles } from "@material-ui/core/styles";
 import { Link as RouterLink } from "react-router-dom";
 import { useState } from "react";
-import { MdMailOutline, MdAccountBox, MdExplore } from "react-icons/md";
 import { Typography, Button } from "@material-ui/core";
 import UserInfo from "./UserInfo";
-import { useHistory } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   root: {
     userSelect: "none",

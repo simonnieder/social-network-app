@@ -63,10 +63,6 @@ const Posts = ({ username }) => {
     setPosts(posts.filter((element) => element.id != id));
   };
 
-  const createProfileTitles = (userId) => {
-    if (userId.charAt(userId.length - 1).toLowerCase() == "s") return userId + "'";
-    return userId + "'s";
-  };
   return (
     <div className={classes.root}>
       <div className={classes.header}>

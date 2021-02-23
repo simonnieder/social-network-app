@@ -53,7 +53,7 @@ const Signup = ({ onUserSubmit }) => {
       })
       .catch((error) => {
         if (!error.response) setError({ error: "Network Error" });
-        // setError({ error: "Username already in use" });
+        setError({ error: "Username already in use" });
         console.log(error);
       });
   };

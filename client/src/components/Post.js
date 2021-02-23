@@ -24,12 +24,10 @@ const useStyles = makeStyles((theme) => ({
 
 const Post = ({ post, username, deletePost }) => {
   const classes = useStyles();
-
   return (
     <Card className={classes.card} variant="outlined">
       <Typography variant="h4">{post.title}</Typography>
       <Typography className={classes.text}>{post.text}</Typography>
-
       <div className={classes.footerContainer}>
         <Typography to={`/users/${post.author}`} component={Link}>
           <small>{post.author}</small>

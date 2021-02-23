@@ -117,7 +117,7 @@ const CreatePost = ({ username }) => {
                     setAlerts(alerts.filter((element) => element != alert));
                   }}
                 >
-                  <MdClose fontSize="2rem" />
+                  <MdClose fontSize="1.75rem" />
                 </IconButton>
               }
             >

@@ -2,13 +2,11 @@ import Sidebar from "./components/Sidebar";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Posts from "./components/Posts";
-import Profile from "./components/Profile";
 import Users from "./components/Users";
 import CreatePost from "./components/CreatePost";
 import { makeStyles } from "@material-ui/core/styles";
 import { BrowserRouter as Router, Switch, Route, Redirect, Link } from "react-router-dom";
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useState } from "react";
 import Theme from "./Theme";
 import { ThemeProvider } from "@material-ui/core/styles";
 let theme = Theme;
@@ -49,18 +47,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 function App() {
   const [username, setUsername] = useState("");
-  const [avatar, setAvatar] = useState("");
   const classes = useStyles();
 
-  useEffect(() => {
-    if (username == "") return;
-    async function fetch() {
-      const res = await axios.get(`https://eu.ui-avatars.com/api/?name=${username}`);
-      console.log(res.data);
-      setAvatar(res.data);
-    }
-    // fetch();
-  }, [username]);
   return (
     <ThemeProvider theme={theme}>
       <div className={classes.app}>
