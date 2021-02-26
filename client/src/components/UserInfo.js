@@ -55,6 +55,7 @@ const UserInfo = ({ username, onSetUsername }) => {
   return (
     <Paper className={classes.options} variant="outlined">
       <Container className={classes.profile} component={Link} to={`/users/${username}`}>
+        <Avatar src={`https://avatars.dicebear.com/api/initials/${username}.svg`} alt="" style={{ height: "2rem", width: "2rem" }} />
         <Typography variant="h5">{username}</Typography>
       </Container>
       <IconButton onClick={deleteUser}>

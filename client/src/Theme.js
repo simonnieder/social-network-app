@@ -2,10 +2,11 @@ import { createMuiTheme, ThemeProvider, responsiveFontSizes } from "@material-ui
 export default createMuiTheme({
   palette: {
     background: {
-      gray: "#DFE4EA",
+      gray: "#fff",
     },
     primary: {
-      main: "#1e90ff",
+      main: "#00b894",
+      contrastText: "#ffffff",
     },
     secondary: {
       main: "#2ed573",
@@ -20,6 +21,9 @@ export default createMuiTheme({
     body1: {
       fontFamily: "Hind Madurai",
       fontSize: "1.25em",
+    },
+    button: {
+      fontColor: "#ffffff",
     },
   },
   breakpoints: {

@@ -27,6 +27,9 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.primary.main,
     background: "white",
   },
+  links: {
+    marginTop: "1rem",
+  },
 }));
 
 const Sidebar = ({ username, setUsername }) => {
@@ -38,29 +41,14 @@ const Sidebar = ({ username, setUsername }) => {
 
   return (
     <div className={classes.root}>
-      <div>
+      <div className={classes.links}>
+        <Typography variant="h4">Posts</Typography>
         <RouterLink
           to="/posts"
           onClick={() => onButtonClick(1)}
           className={`${classes.link} ${window.location.pathname == "/posts" ? classes.isActive : ""}`}
         >
-          <Typography variant="h4">All Posts</Typography>
-        </RouterLink>
-        {username != "" && (
-          <RouterLink
-            to={`/users/${username}`}
-            onClick={() => onButtonClick(2)}
-            className={`${classes.link} ${window.location.pathname == `/users/${username}` ? classes.isActive : ""}`}
-          >
-            <Typography variant="h4">My Posts</Typography>
-          </RouterLink>
-        )}
-        <RouterLink
-          to="/users"
-          onClick={() => onButtonClick(3)}
-          className={`${classes.link} ${window.location.pathname == "/users" ? classes.isActive : ""}`}
-        >
-          <Typography variant="h4">Users</Typography>
+          <Typography variant="h5">All Posts</Typography>
         </RouterLink>
 
         {username != "" && (
@@ -69,7 +57,24 @@ const Sidebar = ({ username, setUsername }) => {
             onClick={() => onButtonClick(4)}
             className={`${classes.link} ${window.location.pathname == "/create-post" ? classes.isActive : ""}`}
           >
-            <Typography variant="h4">Create Post</Typography>
+            <Typography variant="h5">Create Post</Typography>
+          </RouterLink>
+        )}
+        <Typography variant="h4">Users</Typography>
+        <RouterLink
+          to="/users"
+          onClick={() => onButtonClick(3)}
+          className={`${classes.link} ${window.location.pathname == "/users" ? classes.isActive : ""}`}
+        >
+          <Typography variant="h5">Users</Typography>
+        </RouterLink>
+        {username != "" && (
+          <RouterLink
+            to={`/users/${username}`}
+            onClick={() => onButtonClick(2)}
+            className={`${classes.link} ${window.location.pathname == `/users/${username}` ? classes.isActive : ""}`}
+          >
+            <Typography variant="h5">My Account</Typography>
           </RouterLink>
         )}
       </div>

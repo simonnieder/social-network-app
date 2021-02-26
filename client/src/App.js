@@ -6,7 +6,7 @@ import Users from "./components/Users";
 import CreatePost from "./components/CreatePost";
 import { makeStyles } from "@material-ui/core/styles";
 import { BrowserRouter as Router, Switch, Route, Redirect, Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Theme from "./Theme";
 import { ThemeProvider } from "@material-ui/core/styles";
 let theme = Theme;
@@ -14,7 +14,7 @@ let theme = Theme;
 const useStyles = makeStyles((theme) => ({
   app: {
     display: "grid",
-    gridTemplateColumns: "350px auto",
+    gridTemplateColumns: "300px auto",
   },
   options: {
     display: "flex",
@@ -48,7 +48,18 @@ const useStyles = makeStyles((theme) => ({
 function App() {
   const [username, setUsername] = useState("");
   const classes = useStyles();
-
+  useEffect(() => {
+    if (window.localStorage.getItem("social-network-username") !== null) {
+      setUsername(window.localStorage.getItem("social-network-username"));
+    }
+  }, []);
+  useEffect(() => {
+    if (username !== "") {
+      window.localStorage.setItem("social-network-username", username);
+    } else {
+      window.localStorage.removeItem("social-network-username");
+    }
+  }, [username]);
   return (
     <ThemeProvider theme={theme}>
       <div className={classes.app}>
