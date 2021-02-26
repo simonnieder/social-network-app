@@ -1,4 +1,4 @@
-import { Card, Typography, IconButton } from "@material-ui/core";
+import { Card, Typography, IconButton, Tooltip } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
@@ -33,13 +33,15 @@ const Post = ({ post, username, deletePost }) => {
           <small>{post.author}</small>
         </Typography>
         {post.author == username && (
-          <IconButton
-            onClick={() => {
-              deletePost(post.id);
-            }}
-          >
-            <MdDelete className={classes.icon}></MdDelete>
-          </IconButton>
+          <Tooltip title="delete post">
+            <IconButton
+              onClick={() => {
+                deletePost(post.id);
+              }}
+            >
+              <MdDelete className={classes.icon}></MdDelete>
+            </IconButton>
+          </Tooltip>
         )}
       </div>
     </Card>

@@ -66,7 +66,7 @@ const Sidebar = ({ username, setUsername }) => {
           onClick={() => onButtonClick(3)}
           className={`${classes.link} ${window.location.pathname == "/users" ? classes.isActive : ""}`}
         >
-          <Typography variant="h5">Users</Typography>
+      <Typography variant="h5">All Users</Typography>
         </RouterLink>
         {username != "" && (
           <RouterLink

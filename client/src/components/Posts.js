@@ -1,4 +1,4 @@
-import { Avatar, Typography } from "@material-ui/core";
+import { Avatar, Dialog, DialogContent, DialogContentText, Typography, DialogActions, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import Post from "./Post";
@@ -32,6 +32,7 @@ const Posts = ({ username }) => {
   const classes = useStyles();
   const [posts, setPosts] = useState([]);
   const { author } = useParams();
+  const [toDelete, setToDelete] = useState("");
   useEffect(() => {
     const getPosts = async () => {
       let path = "posts";
@@ -51,7 +52,9 @@ const Posts = ({ username }) => {
     getPosts();
   }, []);
 
-  const deletePost = async (id) => {
+  const deletePost = async () => {
+    const id = toDelete;
+    handleClose();
     const response = await axios.delete(REACT_APP_API_URL + "posts/" + id).catch((error) => {
       if (!error.response) {
         console.log("Error: Network Error");
@@ -63,6 +66,9 @@ const Posts = ({ username }) => {
     setPosts(posts.filter((element) => element.id != id));
   };
 
+  const handleClose = () => {
+    setToDelete("");
+  };
   return (
     <div className={classes.root}>
       <div className={classes.header}>
@@ -79,10 +85,25 @@ const Posts = ({ username }) => {
             .slice()
             .reverse()
             .map((post, index) => {
-              return <Post key={index} post={post} username={username} deletePost={deletePost}></Post>;
+              return <Post key={index} post={post} username={username} deletePost={setToDelete}></Post>;
             }),
         ]}
       </div>
+      {toDelete !== "" && (
+        <Dialog open={toDelete} onClose={handleClose}>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">Do you really want to delete your post?</DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button color="primary" variant="outlined" onClick={handleClose}>
+              cancel
+            </Button>
+            <Button color="primary" variant="outlined" onClick={deletePost}>
+              delete
+            </Button>
+          </DialogActions>
+        </Dialog>
+      )}
     </div>
   );
 };
