@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Alert } from "@material-ui/lab";
 import { MdClose } from "react-icons/md";
 import uniqid from "uniqid";
+import { Snackbar } from "@material-ui/core";
 const { REACT_APP_API_URL } = process.env;
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -18,26 +19,23 @@ const useStyles = makeStyles((theme) => ({
     width: "40%",
     minWidth: "300px",
   },
-  alertContainer: {
-    overflow: "hidden",
-    position: "absolute",
-    top: "0",
-    right: "0",
-    padding: "3rem",
-    maxHeight: "100vh",
-    fontSize: "1.25rem",
-  },
   alertstyle: {
-    margin: "1rem 0",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
     fontSize: "1.25rem",
     display: "flex",
     alignItems: "center",
+    padding: ".5rem 0.8rem",
+    color: "#00b894",
+    border: "1px solid #00b894",
+    borderRadius: "10px",
   },
 }));
 const CreatePost = ({ username }) => {
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
-  const [alerts, setAlerts] = useState([]);
+  const [isAlert, setIsAlert] = useState(false);
   const classes = useStyles();
   const submitForm = (e) => {
     e.preventDefault();
@@ -51,7 +49,7 @@ const CreatePost = ({ username }) => {
         });
         setTitle("");
         setText("");
-        setAlerts([...alerts, uniqid()]);
+        setIsAlert(true);
       } catch (err) {
         console.log("Post was not created");
       }
@@ -100,32 +98,35 @@ const CreatePost = ({ username }) => {
           </Button>
         </form>
       </Paper>
-      <div className={classes.alertContainer}>
-        {alerts.map((alert) => {
-          return (
-            <Alert
-              className={classes.alertstyle}
-              variant="filled"
-              severity="success"
-              key={alert}
-              action={
-                <IconButton
-                  aria-label="close"
-                  color="inherit"
-                  size="small"
-                  onClick={() => {
-                    setAlerts(alerts.filter((element) => element != alert));
-                  }}
-                >
-                  <MdClose fontSize="1.75rem" />
-                </IconButton>
-              }
+      {isAlert && (
+        <Snackbar
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+          key={alert}
+          className={classes.alertstyle}
+          open={true}
+          autoHideDuration={5000}
+          onClose={() => {
+            setIsAlert(false);
+          }}
+        >
+          <div>
+            <span style={{ marginRight: "2rem" }}>Post created!</span>
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              size="small"
+              onClick={() => {
+                setIsAlert(false);
+              }}
             >
-              Post has been created!
-            </Alert>
-          );
-        })}
-      </div>
+              <MdClose fontSize="1.5rem" />
+            </IconButton>
+          </div>
+        </Snackbar>
+      )}
     </div>
   );
 };

@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     padding: "2rem",
-    width: "40%",
+    width: "30%",
     minWidth: "300px",
   },
   loginLink: {
