@@ -1,50 +1,17 @@
-import Sidebar from "./components/Sidebar";
-import Login from "./components/Login";
-import Signup from "./components/Signup";
-import Posts from "./components/Posts";
-import Users from "./components/Users";
-import CreatePost from "./components/CreatePost";
+import Sidebar from "./components/Sidebar/Sidebar";
+import Login from "./components/Login/Login";
+import Signup from "./components/Signup/Signup";
+import Posts from "./components/Posts/Posts";
+import Users from "./components/Users/Users";
+import CreatePost from "./components/CreatePost/CreatePost";
 import { makeStyles } from "@material-ui/core/styles";
 import { BrowserRouter as Router, Switch, Route, Redirect, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Theme from "./Theme";
 import { ThemeProvider } from "@material-ui/core/styles";
+import { useStyles } from "./AppStyle";
 let theme = Theme;
 
-const useStyles = makeStyles((theme) => ({
-  app: {
-    display: "grid",
-    gridTemplateColumns: "300px auto",
-  },
-  options: {
-    display: "flex",
-    position: "absolute",
-    margin: "1rem",
-    top: "0",
-    right: "0",
-    "& *": {
-      fontSize: "1.75rem",
-    },
-  },
-  profile: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    "& >*": {
-      marginRight: ".25rem",
-    },
-  },
-  link: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    height: "100vh",
-    width: "100%",
-    "& *": {
-      fontSize: "1.25rem",
-    },
-  },
-}));
 function App() {
   const [username, setUsername] = useState("");
   const classes = useStyles();
@@ -60,33 +27,34 @@ function App() {
       window.localStorage.removeItem("social-network-username");
     }
   }, [username]);
+
   return (
     <ThemeProvider theme={theme}>
       <div className={classes.app}>
         <Router>
           <Sidebar username={username} setUsername={setUsername} />
-          {/*LOGIN*/}
-          {username === "" ? (
-            <Route path={["/login", "/"]} exact render={() => <Login onUserSubmit={setUsername}></Login>}></Route>
-          ) : (
-            <Route path="/login" render={() => <Redirect to={`/users/${username}`}></Redirect>}></Route>
-          )}
-          {/* SIGNUP */}
-          {username == "" ? (
-            <Route path="/signup" render={() => <Signup onUserSubmit={setUsername}></Signup>}></Route>
-          ) : (
-            <Route path="/signup" render={() => <Redirect to="/login"></Redirect>}></Route>
-          )}
-          {/* USERS */}
-          <Switch>
-            {username !== "" && <Route path="/users/:author" render={() => <Posts username={username}></Posts>}></Route>}
-            <Route path="/users" component={Users}></Route>
-          </Switch>
 
-          {/*POSTS*/}
-          <Route path="/posts" render={() => <Posts username={username}></Posts>}></Route>
-          {/* CREATE POST */}
-          {username !== "" && <Route path="/create-post" render={() => <CreatePost username={username}></CreatePost>}></Route>}
+          <Switch>
+            {/*LOGIN*/}
+            <Route path={["/login"]}>
+              {username === "" ? <Login onUserSubmit={setUsername}></Login> : <Redirect to={`/users/${username}`}></Redirect>}
+            </Route>
+            {/* SIGNUP */}
+            <Route path="/signup">
+              {username === "" ? <Signup onUserSubmit={setUsername}></Signup> : <Redirect to={`/users/${username}`}></Redirect>}
+            </Route>
+            {/* PROFILE */}
+            <Route path="/users/:author">
+              <Posts username={username}></Posts>
+            </Route>
+            {/* USERS */}
+            <Route path="/users" component={Users}></Route>
+            {/*POSTS*/}
+            <Route path="/posts" render={() => <Posts username={username}></Posts>}></Route>
+            {/* CREATE POST */}
+            <Route path="/create-post">{username !== "" && <CreatePost username={username}></CreatePost>}</Route>
+            <Redirect to={`/posts`}></Redirect>
+          </Switch>
         </Router>
       </div>
     </ThemeProvider>

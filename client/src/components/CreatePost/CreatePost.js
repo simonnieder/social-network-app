@@ -1,37 +1,11 @@
-import { TextField, Button, Paper, makeStyles, Typography, IconButton } from "@material-ui/core";
+import { TextField, Button, Paper, Typography, IconButton } from "@material-ui/core";
 import axios from "axios";
-import { useState, useEffect } from "react";
-import { Alert } from "@material-ui/lab";
+import { useState } from "react";
 import { MdClose } from "react-icons/md";
 import uniqid from "uniqid";
 import { Snackbar } from "@material-ui/core";
+import { useStyles } from "./CreatePostStyle";
 const { REACT_APP_API_URL } = process.env;
-const useStyles = makeStyles((theme) => ({
-  container: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    overflow: "scroll",
-    maxHeight: "100vh",
-  },
-  paper: {
-    padding: "2rem",
-    width: "40%",
-    minWidth: "300px",
-  },
-  alertstyle: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    fontSize: "1.25rem",
-    display: "flex",
-    alignItems: "center",
-    padding: ".5rem 0.8rem",
-    color: "#00b894",
-    border: "1px solid #00b894",
-    borderRadius: "10px",
-  },
-}));
 const CreatePost = ({ username }) => {
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");

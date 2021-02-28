@@ -1,35 +1,9 @@
 import { Button, TextField, Paper, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { useStyles } from "./SignupStyle";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 const { REACT_APP_API_URL } = process.env;
-
-const useStyles = makeStyles((theme) => ({
-  container: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    overflow: "scroll",
-    maxHeight: "100vh",
-  },
-  form: {
-    "& >*": {
-      fontSize: "1.25rem",
-    },
-  },
-  confirmPassword: {
-    marginBottom: "1rem",
-  },
-  paper: {
-    padding: "2rem",
-    width: "30%",
-    minWidth: "300px",
-  },
-  loginLink: {
-    color: "#3498db",
-  },
-}));
 
 const Signup = ({ onUserSubmit }) => {
   const [username, setUsername] = useState("");

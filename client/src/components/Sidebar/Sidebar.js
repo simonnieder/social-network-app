@@ -1,42 +1,13 @@
-import { makeStyles } from "@material-ui/core/styles";
 import { Link as RouterLink } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Typography, Button } from "@material-ui/core";
-import UserInfo from "./UserInfo";
-const useStyles = makeStyles((theme) => ({
-  root: {
-    userSelect: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    flexDirection: "column",
-    height: "100vh",
-    background: theme.palette.primary.main,
-    color: "white",
-  },
-  link: {
-    display: "block",
-    textDecoration: "none",
-    color: "inherit",
-    margin: "1.5rem 0",
-  },
-  isActive: {
-    textDecoration: "underline",
-  },
-  login: {
-    color: theme.palette.primary.main,
-    background: "white",
-  },
-  links: {
-    marginTop: "1rem",
-  },
-}));
-
+import UserInfo from "./UserInfo/UserInfo";
+import { useStyles } from "./SidebarStyle";
 const Sidebar = ({ username, setUsername }) => {
-  const [selected, setSelected] = useState(0);
+  const [selected, setSelected] = useState(false);
   const classes = useStyles();
-  function onButtonClick(id) {
-    setSelected(id);
+  function onButtonClick() {
+    setSelected(!selected);
   }
 
   return (
@@ -45,7 +16,7 @@ const Sidebar = ({ username, setUsername }) => {
         <Typography variant="h4">Posts</Typography>
         <RouterLink
           to="/posts"
-          onClick={() => onButtonClick(1)}
+          onClick={() => onButtonClick()}
           className={`${classes.link} ${window.location.pathname == "/posts" ? classes.isActive : ""}`}
         >
           <Typography variant="h5">All Posts</Typography>
@@ -54,29 +25,29 @@ const Sidebar = ({ username, setUsername }) => {
         {username != "" && (
           <RouterLink
             to="/create-post"
-            onClick={() => onButtonClick(4)}
+            onClick={() => onButtonClick()}
             className={`${classes.link} ${window.location.pathname == "/create-post" ? classes.isActive : ""}`}
           >
             <Typography variant="h5">Create Post</Typography>
           </RouterLink>
         )}
         <Typography variant="h4">Users</Typography>
-        <RouterLink
-          to="/users"
-          onClick={() => onButtonClick(3)}
-          className={`${classes.link} ${window.location.pathname == "/users" ? classes.isActive : ""}`}
-        >
-      <Typography variant="h5">All Users</Typography>
-        </RouterLink>
         {username != "" && (
           <RouterLink
             to={`/users/${username}`}
-            onClick={() => onButtonClick(2)}
+            onClick={() => onButtonClick()}
             className={`${classes.link} ${window.location.pathname == `/users/${username}` ? classes.isActive : ""}`}
           >
             <Typography variant="h5">My Account</Typography>
           </RouterLink>
         )}
+        <RouterLink
+          to="/users"
+          onClick={() => onButtonClick()}
+          className={`${classes.link} ${window.location.pathname == "/users" ? classes.isActive : ""}`}
+        >
+          <Typography variant="h5">All Users</Typography>
+        </RouterLink>
       </div>
       {username != "" ? (
         <UserInfo username={username} onSetUsername={setUsername}></UserInfo>

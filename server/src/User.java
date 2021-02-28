@@ -7,7 +7,6 @@ import java.util.List;
 public class User {
     private String username;
     private String password;
-    private List<Post> posts = Collections.synchronizedList(new ArrayList<Post>());
 
     public User() {
     }
@@ -30,13 +29,6 @@ public class User {
         this.username = username;
     }
 
-    public List<Post> getPosts() {
-        return posts;
-    }
-    public void setPosts(List<Post> posts) {
-        this.posts = posts;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -49,7 +41,7 @@ public class User {
     public String toString() {
         return "User{" +
                 "username='" + username + '\'' +
-                ", posts=" + posts +
+                ", password='" + password + '\'' +
                 '}';
     }
 }
