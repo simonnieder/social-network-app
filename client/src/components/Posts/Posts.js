@@ -3,6 +3,7 @@ import Avatar from "../Avatar/Avatar";
 import { useStyles } from "./PostsStyle";
 import axios from "axios";
 import Post from "./Post/Post";
+import SearchBox from "../SearchBox/SearchBox";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 const { REACT_APP_API_URL } = process.env;
@@ -10,6 +11,7 @@ const { REACT_APP_API_URL } = process.env;
 const Posts = ({ username }) => {
   const classes = useStyles();
   const [posts, setPosts] = useState([]);
+  const [filteredPosts, setFilteredPosts] = useState([]);
   const { author } = useParams();
   const [toDelete, setToDelete] = useState("");
   useEffect(() => {
@@ -23,6 +25,7 @@ const Posts = ({ username }) => {
       });
       if (response === undefined) return;
       setPosts(response.data);
+      setFilteredPosts(response.data);
     };
     getPosts();
   }, [author]);
@@ -50,22 +53,36 @@ const Posts = ({ username }) => {
   const handleClose = () => {
     setToDelete("");
   };
+  const searchPosts = (query) => {
+    function filterFunction(post) {
+      if (post.title.toLowerCase().includes(query.toLowerCase())) return true;
+      if (post.text.toLowerCase().includes(query.toLowerCase())) return true;
+      if (post.author.toLowerCase().includes(query.toLowerCase())) return true;
+      return false;
+    }
+    const filtered = posts.filter(filterFunction);
+    setFilteredPosts(filtered);
+  };
   return (
     <div className={classes.root}>
       <div className={classes.header}>
-        {author != undefined && <Avatar style={{ height: "50px", width: "50px", color: "white", fontSize: "1.75rem" }} name={author} />}
-        <Typography variant="h2" className={classes.title}>
-          {author != undefined ? `${author}` : "All Posts"}
-        </Typography>
+        <div className={classes.titleContainer}>
+          {author != undefined && <Avatar style={{ height: "50px", width: "50px", color: "white", fontSize: "1.75rem" }} name={author} />}
+          <Typography variant="h2" className={classes.title}>
+            {author != undefined ? `${author}` : "All Posts"}
+          </Typography>
+        </div>
+
+        <SearchBox placeholder="search posts" onSearchChange={searchPosts}></SearchBox>
       </div>
       <div className={classes.container}>
-        {posts.length > 0 ? (
+        {filteredPosts.length > 0 ? (
           [
-            posts
+            filteredPosts
               .slice()
               .reverse()
               .map((post, index) => {
-                return <Post key={index} post={post} username={username} deletePost={setToDelete} editPost={editPost}></Post>;
+                return <Post key={post.id} post={post} username={username} deletePost={setToDelete} editPost={editPost}></Post>;
               }),
           ]
         ) : (

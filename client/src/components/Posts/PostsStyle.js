@@ -4,6 +4,7 @@ export const useStyles = makeStyles((theme) => ({
     maxHeight: "100vh",
     width: "100%",
     overflow: "auto",
+    background: theme.palette.background.gray,
   },
   container: {
     display: "grid",
@@ -12,7 +13,7 @@ export const useStyles = makeStyles((theme) => ({
   header: {
     display: "flex",
     alignItems: "center",
-    background: theme.palette.background.gray,
+    justifyContent: "space-between",
     padding: "2rem",
     color: "#393939",
   },
@@ -24,5 +25,9 @@ export const useStyles = makeStyles((theme) => ({
     color: "#a4b0be",
     textTransform: "capitalize",
     fontSize: "2em",
+  },
+  titleContainer: {
+    display: "flex",
+    alignItems: "center",
   },
 }));

@@ -4,7 +4,6 @@ import Signup from "./components/Signup/Signup";
 import Posts from "./components/Posts/Posts";
 import Users from "./components/Users/Users";
 import CreatePost from "./components/CreatePost/CreatePost";
-import { makeStyles } from "@material-ui/core/styles";
 import { BrowserRouter as Router, Switch, Route, Redirect, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Theme from "./Theme";

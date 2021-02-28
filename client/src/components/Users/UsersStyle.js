@@ -5,9 +5,9 @@ export const useStyles = makeStyles((theme) => ({
     width: "100%",
     overflowY: "auto",
     margin: "0 auto",
+    background: theme.palette.background.gray,
   },
   container: {
-    padding: "3rem",
     gridAutoRows: "5rem",
     columnGap: "2rem",
     display: "flex",
@@ -17,6 +17,7 @@ export const useStyles = makeStyles((theme) => ({
   header: {
     display: "flex",
     alignItems: "center",
+    justifyContent: "space-between",
     background: theme.palette.background.gray,
     padding: "2rem",
     color: "#393939",

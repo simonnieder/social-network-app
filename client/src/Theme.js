@@ -2,7 +2,7 @@ import { createMuiTheme, ThemeProvider, responsiveFontSizes } from "@material-ui
 export default createMuiTheme({
   palette: {
     background: {
-      gray: "#fff",
+      gray: "#f1f2f6",
     },
     primary: {
       main: "#00b894",

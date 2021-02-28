@@ -6,6 +6,7 @@ export const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     overflow: "scroll",
     maxHeight: "100vh",
+    background: theme.palette.background.gray,
   },
   paper: {
     padding: "2rem",

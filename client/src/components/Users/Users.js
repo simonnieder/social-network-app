@@ -1,12 +1,14 @@
-import { Typography, Grid } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import User from "./User/User";
 import { useStyles } from "./UsersStyle";
+import SearchBox from "../SearchBox/SearchBox";
 const { REACT_APP_API_URL } = process.env;
 
 const Users = () => {
   const [users, setUsers] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
   useEffect(() => {
     const getUsers = async () => {
       const response = await axios.get(REACT_APP_API_URL).catch((error) => {
@@ -18,10 +20,16 @@ const Users = () => {
       });
       if (response === undefined) return;
       setUsers(response.data);
+      setFilteredUsers(response.data);
       return response;
     };
     getUsers();
   }, []);
+
+  const searchUsers = (query) => {
+    const filtered = users.filter((user) => user.username.toLowerCase().includes(query.toLowerCase()));
+    setFilteredUsers(filtered);
+  };
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -29,16 +37,13 @@ const Users = () => {
         <Typography variant="h2" className={classes.title}>
           Users
         </Typography>
+        <SearchBox placeholder="search users" onSearchChange={searchUsers}></SearchBox>
       </div>
       <div className={classes.container}>
-        {users.length > 0 ? (
+        {filteredUsers.length > 0 ? (
           [
-            users.map((user, index) => {
-              return (
-                <div>
-                  <User key={index} username={user.username}></User>
-                </div>
-              );
+            filteredUsers.map((user) => {
+              return <User key={user.username} username={user.username}></User>;
             }),
           ]
         ) : (
