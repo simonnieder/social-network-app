@@ -22,7 +22,7 @@ const SearchBox = ({ placeholder, onSearchChange }) => {
         }
         endAdornment={
           <InputAdornment position="end" onClick={() => onChange("")} className={`${value == "" && classes.none}`}>
-            <IconButton>
+            <IconButton style={{ padding: "5px" }}>
               <MdClose />
             </IconButton>
           </InputAdornment>
