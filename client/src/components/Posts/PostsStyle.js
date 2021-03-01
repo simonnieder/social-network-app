@@ -5,6 +5,7 @@ export const useStyles = makeStyles((theme) => ({
     width: "100%",
     overflow: "auto",
     background: theme.palette.background.gray,
+    padding: "0 5rem",
   },
   container: {
     display: "grid",
