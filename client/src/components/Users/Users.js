@@ -1,4 +1,4 @@
-import { Typography } from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import User from "./User/User";
@@ -39,17 +39,21 @@ const Users = () => {
         </Typography>
         <SearchBox placeholder="search users" onSearchChange={searchUsers}></SearchBox>
       </div>
-      <div className={classes.container}>
+      <Grid container spacing={2} className={classes.container}>
         {filteredUsers.length > 0 ? (
           [
             filteredUsers.map((user) => {
-              return <User key={user.username} username={user.username}></User>;
+              return (
+                <Grid item xs={12} sm={6} md={4} lg={3} className={classes.gridItem}>
+                  <User key={user.username} username={user.username}></User>{" "}
+                </Grid>
+              );
             }),
           ]
         ) : (
           <Typography className={classes.nothing}>nothing to see here!</Typography>
         )}
-      </div>
+      </Grid>
     </div>
   );
 };

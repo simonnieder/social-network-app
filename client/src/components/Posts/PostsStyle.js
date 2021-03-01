@@ -5,18 +5,14 @@ export const useStyles = makeStyles((theme) => ({
     width: "100%",
     overflow: "auto",
     background: theme.palette.background.gray,
-    padding: "0 5rem",
+    flex: "1",
   },
   container: {
     display: "grid",
     justifyItems: "center",
   },
   header: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    padding: "2rem",
-    color: "#393939",
+    ...theme.header,
   },
   title: {
     text: "center",

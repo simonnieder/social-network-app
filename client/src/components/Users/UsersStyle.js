@@ -1,26 +1,21 @@
 import { makeStyles } from "@material-ui/core";
 export const useStyles = makeStyles((theme) => ({
   root: {
-    maxHeight: "100vh",
+    height: "100vh",
+    flex: "1",
     width: "100%",
     overflowY: "auto",
     margin: "0 auto",
     background: theme.palette.background.gray,
   },
   container: {
-    gridAutoRows: "5rem",
-    columnGap: "2rem",
-    display: "flex",
-    flexDirection: "column",
+    padding: "2rem",
+    width: "100%",
     alignItems: "center",
   },
   header: {
     display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    background: theme.palette.background.gray,
-    padding: "2rem",
-    color: "#393939",
+    ...theme.header,
   },
   title: {
     text: "center",
@@ -30,5 +25,9 @@ export const useStyles = makeStyles((theme) => ({
     color: "#a4b0be",
     textTransform: "capitalize",
     fontSize: "2em",
+  },
+  gridItem: {
+    display: "flex",
+    justifyContent: "center",
   },
 }));

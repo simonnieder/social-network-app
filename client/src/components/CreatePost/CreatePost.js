@@ -75,8 +75,8 @@ const CreatePost = ({ username }) => {
       {isAlert && (
         <Snackbar
           anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "right",
+            vertical: "top",
+            horizontal: "center",
           }}
           key={alert}
           className={classes.alertstyle}

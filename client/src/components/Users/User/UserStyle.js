@@ -1,22 +1,23 @@
 import { makeStyles } from "@material-ui/core";
-export const useStyles = makeStyles({
+export const useStyles = makeStyles((theme) => ({
   root: {
-    padding: "1rem",
+    padding: "3rem",
     display: "flex",
+    flexDirection: "column",
     alignItems: "center",
     overflow: "hidden",
-    width: "500px",
-    margin: "1rem",
-  },
-  namesection: {
-    display: "flex",
-    alignItems: "center",
-    "&>h4": {
-      marginLeft: ".5rem",
+    width: "300px",
+    [theme.breakpoints.down("xs")]: {
+      width: "200px",
+      fontSize: ".7em",
+    },
+    [theme.breakpoints.down("sm")]: {
+      width: "250px",
+      fontSize: ".8125em",
     },
   },
   link: {
     textDecoration: "none",
     color: "inherit",
   },
-});
+}));

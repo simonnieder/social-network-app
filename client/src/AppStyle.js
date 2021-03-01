@@ -1,8 +1,9 @@
 import { makeStyles } from "@material-ui/core";
 export const useStyles = makeStyles((theme) => ({
   app: {
-    display: "grid",
-    gridTemplateColumns: "300px auto",
+    display: "flex",
+    flexDirection: "column",
+    height: "100vh",
   },
   options: {
     display: "flex",

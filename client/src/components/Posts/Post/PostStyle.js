@@ -1,14 +1,11 @@
 import { makeStyles } from "@material-ui/core";
 export const useStyles = makeStyles((theme) => ({
   card: {
-    width: "500px",
-    padding: "1rem",
-    color: "black",
-    margin: "1rem",
+    ...theme.card,
     wordBreak: "break-word",
   },
   text: {
-    fontSize: "1.25rem",
+    fontSize: "1.25em",
     margin: "0.25rem 0",
     fontWeight: theme.typography.body1.fontWeight,
     fontFamily: theme.typography.body1.fontFamily,
@@ -44,6 +41,8 @@ export const useStyles = makeStyles((theme) => ({
     color: theme.typography.h4.color,
   },
   alertstyle: {
+    marginTop: "60px",
+    background: theme.palette.background.gray,
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
@@ -54,5 +53,8 @@ export const useStyles = makeStyles((theme) => ({
     color: "#00b894",
     border: "1px solid #00b894",
     borderRadius: "10px",
+  },
+  icon: {
+    fontSize: "1em",
   },
 }));

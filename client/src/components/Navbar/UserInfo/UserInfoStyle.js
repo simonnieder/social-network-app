@@ -4,10 +4,8 @@ export const useStyles = makeStyles((theme) => ({
     padding: "0.25rem 0.5rem",
     display: "flex",
     alignItems: "space-around",
-    margin: "1rem",
     bottom: "0",
     left: "0",
-    width: "80%",
     boxSizing: "default",
     "& *": {
       fontSize: "1.75rem",
@@ -15,19 +13,19 @@ export const useStyles = makeStyles((theme) => ({
     color: "inherit",
     background: theme.palette.primary.main,
     border: "none",
+    [theme.breakpoints.down("xs")]: {
+      display: "none",
+    },
   },
   profile: {
     overflow: "hidden",
     padding: "0",
     textDecoration: "none",
-    color: "inherit",
+    color: "rgba(0, 0, 0, 0.54)",
     display: "flex",
     alignItems: "center",
     "& >*": {
-      marginRight: ".25rem",
+      marginRight: "1rem",
     },
-  },
-  icon: {
-    color: "white",
   },
 }));

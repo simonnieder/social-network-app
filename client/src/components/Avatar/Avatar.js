@@ -1,5 +1,5 @@
 import { useStyles } from "./AvatarStyle";
-const Avatar = ({ name, style, className }) => {
+const Avatar = ({ name, style }) => {
   const classes = useStyles();
   if (name === undefined || name === "") return <div></div>;
   const letter = name.charAt(0).toUpperCase();
