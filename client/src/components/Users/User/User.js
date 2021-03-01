@@ -7,10 +7,10 @@ const User = ({ username }) => {
   return (
     <RouterLink to={`/users/${username}`} className={classes.link}>
       <Card className={classes.root} variant="outlined">
-        <div className={classes.namesection}>
-          <Avatar style={{ width: "40px", height: "40px", fontSize: "1.25rem", color: "white" }} name={username} />
-          <Typography variant="h4">{username}</Typography>
-        </div>
+        <Avatar style={{ fontSize: "5em", color: "white" }} name={username} />
+        <Typography variant="h4" style={{ textAlign: "center", wordBreak: "break-word" }}>
+          {username}
+        </Typography>
       </Card>
     </RouterLink>
   );

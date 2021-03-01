@@ -26,7 +26,7 @@ const Post = ({ post, username, deletePost, editPost }) => {
   }, [editMode]);
 
   useEffect(() => {
-    setInputRows(text.split(/\r\n|\r|\n/).length);
+    setInputRows(text.split(/\r\n|\r|\n/).length + 1);
   }, [text]);
 
   return (
@@ -82,7 +82,7 @@ const Post = ({ post, username, deletePost, editPost }) => {
         <Snackbar
           anchorOrigin={{
             vertical: "top",
-            horizontal: "right",
+            horizontal: "center",
           }}
           key={alert}
           className={classes.alertstyle}

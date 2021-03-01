@@ -1,4 +1,4 @@
-import Sidebar from "./components/Sidebar/Sidebar";
+import Navbar from "./components/Navbar/Navbar";
 import Login from "./components/Login/Login";
 import Signup from "./components/Signup/Signup";
 import Posts from "./components/Posts/Posts";
@@ -31,8 +31,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <div className={classes.app}>
         <Router>
-          <Sidebar username={username} setUsername={setUsername} />
-
+          <Navbar username={username} setUsername={setUsername} />
           <Switch>
             {/*LOGIN*/}
             <Route path={["/login"]}>
@@ -49,10 +48,10 @@ function App() {
             {/* USERS */}
             <Route path="/users" component={Users}></Route>
             {/*POSTS*/}
-            <Route path="/posts" render={() => <Posts username={username}></Posts>}></Route>
+            <Route path="/" exact render={() => <Posts username={username}></Posts>}></Route>
             {/* CREATE POST */}
             <Route path="/create-post">{username !== "" && <CreatePost username={username}></CreatePost>}</Route>
-            <Redirect to={`/posts`}></Redirect>
+            {/* <Redirect to={`/posts`}></Redirect> */}
           </Switch>
         </Router>
       </div>

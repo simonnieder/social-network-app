@@ -43,7 +43,7 @@ const Posts = ({ username }) => {
   const editPost = async (post, title, text) => {
     const newPost = { ...post, title: title, text: text };
     try {
-      const response = await axios.put(REACT_APP_API_URL + "posts", newPost);
+      await axios.put(REACT_APP_API_URL + "posts", newPost);
     } catch (e) {
       return false;
     }
@@ -81,7 +81,7 @@ const Posts = ({ username }) => {
             filteredPosts
               .slice()
               .reverse()
-              .map((post, index) => {
+              .map((post) => {
                 return <Post key={post.id} post={post} username={username} deletePost={setToDelete} editPost={editPost}></Post>;
               }),
           ]

@@ -5,7 +5,8 @@ export const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     alignItems: "center",
     overflow: "scroll",
-    maxHeight: "100vh",
+    height: "100vh",
+    flex: "1",
     background: theme.palette.background.gray,
   },
   form: {
@@ -17,8 +18,9 @@ export const useStyles = makeStyles((theme) => ({
     marginBottom: "1rem",
   },
   paper: {
-    padding: "2rem",
-    width: "500px",
+    ...theme.card,
+    padding: "3rem",
+    maxWidth: "700px",
   },
   signUpLink: {
     color: "#3498db",

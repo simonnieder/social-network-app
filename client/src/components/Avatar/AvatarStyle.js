@@ -6,8 +6,8 @@ export const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    height: "25px",
-    width: "25px",
+    height: "2em",
+    width: "2em",
     flexShrink: "0",
   },
 }));
