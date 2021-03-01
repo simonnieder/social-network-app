@@ -38,7 +38,6 @@ const Posts = ({ username }) => {
     });
     if (response === undefined) return;
     setPosts(posts.filter((element) => element.id != id));
-    setFilteredPosts(filteredPosts.filter((element) => element.id != id));
   };
 
   const editPost = async (post, title, text) => {

@@ -34,17 +34,10 @@ const Post = ({ post, username, deletePost, editPost }) => {
       <Card className={classes.card} variant="outlined">
         {editMode ? (
           <div className={classes.editContainer}>
-            <input
-              value={title}
-              required
-              onChange={(e) => setTitle(e.target.value)}
-              className={`${classes.input} ${classes.inputTitle}`}
-              type="text"
-            />
+            <input value={title} onChange={(e) => setTitle(e.target.value)} className={`${classes.input} ${classes.inputTitle}`} type="text" />
             <textarea
               rows={inputRows}
               value={text}
-              required
               className={`${classes.input} ${classes.text}`}
               onChange={(e) => setText(e.target.value)}
             ></textarea>
@@ -88,7 +81,7 @@ const Post = ({ post, username, deletePost, editPost }) => {
       {isAlert && (
         <Snackbar
           anchorOrigin={{
-            vertical: "bottom",
+            vertical: "top",
             horizontal: "right",
           }}
           key={alert}
