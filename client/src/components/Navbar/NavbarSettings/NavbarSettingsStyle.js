@@ -13,7 +13,7 @@ export const useStyles = makeStyles((theme) => ({
   },
   item: {
     fontSize: "1.25rem",
-    color: "rgba(0, 0, 0, 0.54)",
+    color: theme.palette.color.gray,
     margin: "1rem",
     display: "flex",
     alignItems: "center",

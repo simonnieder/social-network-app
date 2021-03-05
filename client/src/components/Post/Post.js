@@ -1,9 +1,12 @@
-import { Card, Typography, IconButton, Tooltip, Snackbar } from "@material-ui/core";
+import { Card, Typography, IconButton, Tooltip } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import { MdDelete, MdEdit, MdClose } from "react-icons/md";
+import { MdDelete, MdEdit } from "react-icons/md";
 import { useStyles } from "./PostStyle";
 import { useEffect, useState } from "react";
+import DeleteDialog from "../Dialog/DeleteDialog";
+import Alert from "../Alert/Alert";
 const Post = ({ post, username, deletePost, editPost }) => {
+  const [popUpIsOpen, setPopUpIsOpen] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [title, setTitle] = useState(post.title);
   const [text, setText] = useState(post.text);
@@ -31,7 +34,7 @@ const Post = ({ post, username, deletePost, editPost }) => {
 
   return (
     <div>
-      <Card className={classes.card} variant="outlined">
+      <div className={classes.card}>
         {editMode ? (
           <div className={classes.editContainer}>
             <input value={title} onChange={(e) => setTitle(e.target.value)} className={`${classes.input} ${classes.inputTitle}`} type="text" />
@@ -50,7 +53,7 @@ const Post = ({ post, username, deletePost, editPost }) => {
         )}
 
         <div className={classes.footerContainer}>
-          <Typography to={`/users/${post.author}`} component={Link}>
+          <Typography to={`/users/${post.author}`} component={Link} className={classes.link}>
             <small>@{post.author}</small>
           </Typography>
           {post.author == username && (
@@ -67,7 +70,7 @@ const Post = ({ post, username, deletePost, editPost }) => {
               <Tooltip title="delete post">
                 <IconButton
                   onClick={() => {
-                    deletePost(post.id);
+                    setPopUpIsOpen(true);
                   }}
                 >
                   <MdDelete className={classes.icon}></MdDelete>
@@ -76,37 +79,14 @@ const Post = ({ post, username, deletePost, editPost }) => {
             </div>
           )}
         </div>
-      </Card>
-
-      {isAlert && (
-        <Snackbar
-          anchorOrigin={{
-            vertical: "top",
-            horizontal: "center",
-          }}
-          key={alert}
-          className={classes.alertstyle}
-          open={true}
-          autoHideDuration={5000}
-          onClose={() => {
-            setIsAlert(false);
-          }}
-        >
-          <div>
-            <span style={{ marginRight: "2rem" }}>Post edited!</span>
-            <IconButton
-              aria-label="close"
-              color="inherit"
-              size="small"
-              onClick={() => {
-                setIsAlert(false);
-              }}
-            >
-              <MdClose fontSize="1.5rem" />
-            </IconButton>
-          </div>
-        </Snackbar>
-      )}
+      </div>
+      <DeleteDialog
+        text="Do you really want to delete this post?"
+        open={popUpIsOpen}
+        handleClose={() => setPopUpIsOpen(false)}
+        handleDelete={() => deletePost(post.id)}
+      ></DeleteDialog>
+      <Alert open={isAlert} onClose={() => setIsAlert(false)} message="Post was edited!"></Alert>
     </div>
   );
 };

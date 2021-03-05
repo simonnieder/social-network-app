@@ -1,9 +1,9 @@
-import { Dialog, DialogContent, DialogContentText, Typography, DialogActions, Button } from "@material-ui/core";
-import Avatar from "../Avatar/Avatar";
+import { Typography } from "@material-ui/core";
+import Avatar from "../../components/Avatar/Avatar";
 import { useStyles } from "./PostsStyle";
 import axios from "axios";
-import Post from "./Post/Post";
-import SearchBox from "../SearchBox/SearchBox";
+import Post from "../../components/Post/Post";
+import SearchBox from "../../components/SearchBox/SearchBox";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 const { REACT_APP_API_URL } = process.env;
@@ -13,31 +13,33 @@ const Posts = ({ username }) => {
   const [posts, setPosts] = useState([]);
   const [filteredPosts, setFilteredPosts] = useState([]);
   const { author } = useParams();
-  const [toDelete, setToDelete] = useState("");
   useEffect(() => {
     const getPosts = async () => {
       let path = "posts";
       if (author != undefined) {
-        path += `/${author};`;
+        path += `/${author}`;
       }
-      const response = await axios.get(REACT_APP_API_URL + path).catch((error) => {
-        console.log(error.response.status);
-      });
-      if (response === undefined) return;
-      setPosts(response.data);
-      setFilteredPosts(response.data);
+      try {
+        const response = await axios.get(REACT_APP_API_URL + path);
+        setPosts(response.data);
+        setFilteredPosts(response.data);
+      } catch (error) {
+        if (!error.response) console.log("Not reachable!");
+        console.log(error.response);
+      }
     };
     getPosts();
   }, [author]);
 
-  const deletePost = async () => {
-    const id = toDelete;
-    handleClose();
-    const response = await axios.delete(REACT_APP_API_URL + "posts/" + id).catch((error) => {
+  const deletePost = async (id) => {
+    try {
+      await axios.delete(REACT_APP_API_URL + "posts/" + id);
+      setPosts(posts.filter((element) => element.id != id));
+      setFilteredPosts(filteredPosts.filter((element) => element.id != id));
+    } catch (error) {
+      if (!error.response) console.log("Not reachable!");
       console.log(error.response);
-    });
-    if (response === undefined) return;
-    setPosts(posts.filter((element) => element.id != id));
+    }
   };
 
   const editPost = async (post, title, text) => {
@@ -50,9 +52,6 @@ const Posts = ({ username }) => {
     return true;
   };
 
-  const handleClose = () => {
-    setToDelete("");
-  };
   const searchPosts = (query) => {
     function filterFunction(post) {
       if (post.title.toLowerCase().includes(query.toLowerCase())) return true;
@@ -72,7 +71,6 @@ const Posts = ({ username }) => {
             {author != undefined ? `${author}` : "All Posts"}
           </Typography>
         </div>
-
         <SearchBox placeholder="search posts" onSearchChange={searchPosts}></SearchBox>
       </div>
       <div className={classes.container}>
@@ -82,28 +80,13 @@ const Posts = ({ username }) => {
               .slice()
               .reverse()
               .map((post) => {
-                return <Post key={post.id} post={post} username={username} deletePost={setToDelete} editPost={editPost}></Post>;
+                return <Post key={post.id} post={post} username={username} deletePost={deletePost} editPost={editPost}></Post>;
               }),
           ]
         ) : (
           <Typography className={classes.nothing}>nothing to see here!</Typography>
         )}
       </div>
-      {toDelete !== "" && (
-        <Dialog open={toDelete} onClose={handleClose}>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">Do you really want to delete your post?</DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button color="primary" variant="outlined" onClick={handleClose}>
-              cancel
-            </Button>
-            <Button color="primary" variant="outlined" onClick={deletePost}>
-              delete
-            </Button>
-          </DialogActions>
-        </Dialog>
-      )}
     </div>
   );
 };

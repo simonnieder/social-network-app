@@ -3,8 +3,8 @@ import { makeStyles } from "@material-ui/core";
 export const useStyles = makeStyles((theme) => ({
   link: {
     textDecoration: "none",
-    color: "#005141",
-    fontSize: "2.5em",
+    color: theme.palette.color.gray,
+    fontSize: "3em",
     display: "flex",
     alignItems: "center",
     height: "100%",
@@ -15,6 +15,12 @@ export const useStyles = makeStyles((theme) => ({
       borderColor: "white",
     },
     padding: "1rem",
+    [theme.breakpoints.down("md")]: {
+      fontSize: "2.5em",
+    },
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "2em",
+    },
   },
   active: {
     borderColor: "white",

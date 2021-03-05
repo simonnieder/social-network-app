@@ -10,30 +10,28 @@ const Login = (props) => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState({ error: "" });
 
-  const submitForm = (e) => {
+  const submitForm = async (e) => {
     e.preventDefault();
-    axios
-      .get(REACT_APP_API_URL + username)
-      .then((response) => {
-        if (password == response.data.password) {
-          props.onUserSubmit(username);
-        } else {
-          setError({ error: "Username or password incorrect" });
-        }
-      })
-      .catch((error) => {
-        if (!error.response) {
-          setError({ error: "Network Error" });
-        } else {
-          setError({ error: "Username or password incorrect" });
-        }
-      });
+    try {
+      const response = await axios.get(REACT_APP_API_URL + username);
+      if (password == response.data.password) {
+        props.onUserSubmit(username);
+      } else {
+        setError({ error: "Username or password incorrect" });
+      }
+    } catch (error) {
+      if (!error.response) {
+        setError({ error: "Network Error" });
+      } else {
+        setError({ error: "Username or password incorrect" });
+      }
+    }
   };
 
   const classes = useStyles();
   return (
     <div className={classes.container}>
-      <Paper variant="outlined" className={classes.paper}>
+      <div variant="outlined" className={classes.paper}>
         <Typography variant="h3">Login:</Typography>
         <form className={classes.form} onSubmit={submitForm}>
           <TextField
@@ -61,14 +59,14 @@ const Login = (props) => {
           >
             password
           </TextField>
-          <Button type="submit" color="primary" variant="contained">
+          <Button type="submit" color="primary" variant="contained" style={{ fontSize: "1.125em", padding: "0.125em 0.5em" }}>
             submit
           </Button>
         </form>
         <Link className={classes.signUpLink} to="/signup">
           <small>Sign up.</small>
         </Link>
-      </Paper>
+      </div>
     </div>
   );
 };

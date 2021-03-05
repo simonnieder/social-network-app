@@ -5,11 +5,11 @@ export const useStyles = makeStyles((theme) => ({
     wordBreak: "break-word",
   },
   text: {
-    fontSize: "1.25em",
+    fontSize: "1.125em",
     margin: "0.25rem 0",
     fontWeight: theme.typography.body1.fontWeight,
     fontFamily: theme.typography.body1.fontFamily,
-    color: theme.typography.body1.color,
+    color: "#585858",
     whiteSpace: "pre-wrap",
     maxHeight: "400px",
     overflowY: "auto",
@@ -56,5 +56,8 @@ export const useStyles = makeStyles((theme) => ({
   },
   icon: {
     fontSize: "1em",
+  },
+  link: {
+    color: theme.palette.primary.main,
   },
 }));

@@ -17,25 +17,23 @@ const Signup = ({ onUserSubmit }) => {
       setError({ error: "Passwords don't match." });
       return;
     }
-    axios
-      .post(REACT_APP_API_URL, {
+    try {
+      axios.post(REACT_APP_API_URL, {
         username: username,
         password: password,
-      })
-      .then((response) => {
-        onUserSubmit(username);
-      })
-      .catch((error) => {
-        if (!error.response) setError({ error: "Network Error" });
-        setError({ error: "Username already in use" });
-        console.log(error);
       });
+      onUserSubmit(username);
+    } catch (error) {
+      if (!error.response) setError({ error: "Network Error" });
+      setError({ error: "Username already in use" });
+      console.log(error);
+    }
   };
 
   const classes = useStyles();
   return (
     <div className={classes.container}>
-      <Paper variant="outlined" className={classes.paper}>
+      <div variant="outlined" className={classes.paper}>
         <Typography variant="h3">Sign up:</Typography>
         <form className={classes.form} onSubmit={submitForm}>
           <TextField
@@ -78,14 +76,14 @@ const Signup = ({ onUserSubmit }) => {
           >
             confirm password
           </TextField>
-          <Button type="submit" color="primary" variant="contained">
+          <Button type="submit" color="primary" variant="contained" style={{ fontSize: "1.125em", padding: "0.125em 0.5em" }}>
             sign up
           </Button>
         </form>
         <Link className={classes.loginLink} to="/login">
           <small>Already have an account? Log in.</small>
         </Link>
-      </Paper>
+      </div>
     </div>
   );
 };

@@ -1,26 +1,11 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, IconButton, Tooltip, Typography } from "@material-ui/core";
-import React, { useEffect, useRef, useState } from "react";
+import { IconButton, Tooltip, Typography } from "@material-ui/core";
+import React, { useState } from "react";
 import { MdDelete, MdExitToApp, MdSettings } from "react-icons/md";
 import { useStyles } from "./NavbarSettingsStyle";
 import axios from "axios";
+import { useClickOutside } from "../../../hooks/useClickOutside";
+import DeleteDialog from "../../Dialog/DeleteDialog";
 const { REACT_APP_API_URL } = process.env;
-
-let useClickOutside = (handler) => {
-  let ref = useRef();
-  useEffect(() => {
-    const clickHandler = (event) => {
-      if (!ref.current.contains(event.target)) {
-        handler();
-      }
-    };
-
-    document.addEventListener("mousedown", clickHandler);
-    return () => {
-      document.removeEventListener("mousedown", clickHandler);
-    };
-  });
-  return ref;
-};
 
 const NavbarSettings = ({ username, setUsername }) => {
   const [menuIsOpen, setMenuIsOpen] = useState(false);
@@ -30,16 +15,17 @@ const NavbarSettings = ({ username, setUsername }) => {
   };
   const deleteUser = async () => {
     handlePopupClose();
-    const response = await axios.delete(REACT_APP_API_URL + username).catch((error) => {
+    try {
+      await axios.delete(REACT_APP_API_URL + username);
+      setUsername("");
+      setMenuIsOpen(false);
+    } catch (error) {
       if (!error.response) {
         console.log("Error: Network Error");
       } else {
         console.log("Error: " + error.response.data.message);
       }
-    });
-    if (response === undefined) return;
-    setUsername("");
-    setMenuIsOpen(false);
+    }
   };
 
   let settings = useClickOutside(() => {
@@ -82,22 +68,12 @@ const NavbarSettings = ({ username, setUsername }) => {
           </div>
         </div>
       )}
-      {popupIsOpen && (
-        <Dialog open={popupIsOpen} onClose={handlePopupClose}>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">Do you really want to delete your account?</DialogContentText>
-          </DialogContent>
-
-          <DialogActions>
-            <Button color="primary" variant="outlined" onClick={handlePopupClose}>
-              cancel
-            </Button>
-            <Button color="primary" variant="contained" onClick={deleteUser}>
-              delete
-            </Button>
-          </DialogActions>
-        </Dialog>
-      )}
+      <DeleteDialog
+        text="Do you really want to delete your account?"
+        handleClose={handlePopupClose}
+        handleDelete={deleteUser}
+        open={popupIsOpen}
+      ></DeleteDialog>
     </div>
   );
 };

@@ -1,9 +1,9 @@
 import Navbar from "./components/Navbar/Navbar";
-import Login from "./components/Login/Login";
-import Signup from "./components/Signup/Signup";
-import Posts from "./components/Posts/Posts";
-import Users from "./components/Users/Users";
-import CreatePost from "./components/CreatePost/CreatePost";
+import Login from "./pages/Login/Login";
+import Signup from "./pages/Signup/Signup";
+import Posts from "./pages/Posts/Posts";
+import Users from "./pages/Users/Users";
+import CreatePost from "./pages/CreatePost/CreatePost";
 import { BrowserRouter as Router, Switch, Route, Redirect, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Theme from "./Theme";

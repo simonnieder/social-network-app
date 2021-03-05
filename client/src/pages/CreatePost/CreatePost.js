@@ -1,9 +1,8 @@
-import { TextField, Button, Paper, Typography, IconButton } from "@material-ui/core";
+import { TextField, Button, Paper, Typography } from "@material-ui/core";
 import axios from "axios";
 import { useState } from "react";
-import { MdClose } from "react-icons/md";
 import uniqid from "uniqid";
-import { Snackbar } from "@material-ui/core";
+import Alert from "../../components/Alert/Alert";
 import { useStyles } from "./CreatePostStyle";
 const { REACT_APP_API_URL } = process.env;
 const CreatePost = ({ username }) => {
@@ -15,7 +14,7 @@ const CreatePost = ({ username }) => {
     e.preventDefault();
     const post = async (username) => {
       try {
-        const request = await axios.post(REACT_APP_API_URL + "posts", {
+        await axios.post(REACT_APP_API_URL + "posts", {
           title: title,
           text: text,
           author: username,
@@ -33,7 +32,7 @@ const CreatePost = ({ username }) => {
 
   return (
     <div className={classes.container}>
-      <Paper variant="outlined" className={classes.paper}>
+      <div variant="outlined" className={classes.paper}>
         <Typography variant="h3">Create Post:</Typography>
         <form onSubmit={submitForm}>
           <TextField
@@ -67,40 +66,12 @@ const CreatePost = ({ username }) => {
             InputLabelProps={{ style: { fontSize: "1.5rem" } }}
           />
 
-          <Button type="submit" color="primary" variant="contained" style={{ fontSize: "1.25rem" }}>
+          <Button type="submit" color="primary" variant="contained" style={{ fontSize: "1.125em", padding: "0.125em 0.5em" }}>
             Create
           </Button>
         </form>
-      </Paper>
-      {isAlert && (
-        <Snackbar
-          anchorOrigin={{
-            vertical: "top",
-            horizontal: "center",
-          }}
-          key={alert}
-          className={classes.alertstyle}
-          open={true}
-          autoHideDuration={5000}
-          onClose={() => {
-            setIsAlert(false);
-          }}
-        >
-          <div>
-            <span style={{ marginRight: "2rem" }}>Post created!</span>
-            <IconButton
-              aria-label="close"
-              color="inherit"
-              size="small"
-              onClick={() => {
-                setIsAlert(false);
-              }}
-            >
-              <MdClose fontSize="1.5rem" />
-            </IconButton>
-          </div>
-        </Snackbar>
-      )}
+      </div>
+      <Alert open={isAlert} onClose={() => setIsAlert(false)} message="Post was edited!"></Alert>
     </div>
   );
 };

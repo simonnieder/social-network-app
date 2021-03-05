@@ -1,6 +1,9 @@
 import { makeStyles } from "@material-ui/core";
 export const useStyles = makeStyles((theme) => ({
   root: {
+    background: "white",
+    borderRadius: "20px",
+    boxShadow: "5px 5px 13px rgba(0,0,0, 0.18)",
     padding: "3rem",
     display: "flex",
     flexDirection: "column",

@@ -21,7 +21,7 @@ export const useStyles = makeStyles((theme) => ({
     overflow: "hidden",
     padding: "0",
     textDecoration: "none",
-    color: "rgba(0, 0, 0, 0.54)",
+    color: theme.palette.color.gray,
     display: "flex",
     alignItems: "center",
     "& >*": {

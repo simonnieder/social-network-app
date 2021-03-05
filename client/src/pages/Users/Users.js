@@ -1,9 +1,9 @@
 import { Grid, Typography } from "@material-ui/core";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import User from "./User/User";
+import User from "../../components/User/User";
 import { useStyles } from "./UsersStyle";
-import SearchBox from "../SearchBox/SearchBox";
+import SearchBox from "../../components/SearchBox/SearchBox";
 const { REACT_APP_API_URL } = process.env;
 
 const Users = () => {
@@ -11,17 +11,17 @@ const Users = () => {
   const [filteredUsers, setFilteredUsers] = useState([]);
   useEffect(() => {
     const getUsers = async () => {
-      const response = await axios.get(REACT_APP_API_URL).catch((error) => {
+      try {
+        const response = await axios.get(REACT_APP_API_URL);
+        setUsers(response.data);
+        setFilteredUsers(response.data);
+      } catch (error) {
         if (!error.response) {
           console.log("Error: Network Error");
         } else {
           console.log("Error: " + error.response.data.message);
         }
-      });
-      if (response === undefined) return;
-      setUsers(response.data);
-      setFilteredUsers(response.data);
-      return response;
+      }
     };
     getUsers();
   }, []);

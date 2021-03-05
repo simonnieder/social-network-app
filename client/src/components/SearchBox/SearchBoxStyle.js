@@ -5,4 +5,7 @@ export const useStyles = makeStyles((theme) => ({
     visibility: "hidden",
     pointerEvents: "none",
   },
+  icon: {
+    padding: "0.25em",
+  },
 }));
